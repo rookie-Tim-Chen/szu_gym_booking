@@ -15,7 +15,10 @@ from threading import Event
 from multiprocessing import Process
 import argparse
 
-
+parser = argparse.ArgumentParser()
+parser.add_argument('--choose_day', type=int, required=True)
+parser.add_argument('--choose_time', type=str, required=True)
+args = parser.parse_args()
 
 # 配置日志
 logging.basicConfig(
@@ -32,15 +35,15 @@ CONFIG = {
     "login_url": "https://ehall.szu.edu.cn/qljfwapp/sys/lwSzuCgyy/index.do#/sportVenue",
     "user_name": "2310433098",
     "password": "lwt20010322$$$",
-    "choose_day": "1",  # 当天为1，第二天为2
-    "choose_time": "20-21",  # 24小时制，例如晚上8-9点输入 "20-21"
+    "choose_day": args.choose_day,  # 当天为1，第二天为2
+    "choose_time": args.choose_time,  # 24小时制，例如晚上8-9点输入 "20-21"
     "date_time": "12:29:30",  # 定时执行时间
-    "try_other_times": False,  # 当前时间段不可用时尝试其他时间段
+    "try_other_times": True,  # 当前时间段不可用时尝试其他时间段
     "time_range_offset": 1,  # 尝试的前后时间段数量
     "wait_time": 2,  # 选择时间段的等待时间，单位秒
     "max_attempts": 2000,  # 最大尝试次数
     "email": {                              #开启SMTP 参考：https://laowangblog.com/qq-mail-smtp-service.html
-        "from_email": "443799744@qq.com",  # 替换为您的 QQ 邮箱
+        "from_email": "443799744@qq.com",  # 替换为您的 QQ 邮箱        
         "from_password": "pfgcfubiucwsbggb",  # 替换为您的 QQ 邮箱授权码
         "to_email": "2310433065@email.szu.edu.cn"       #接受信息的邮箱 ，学校的邮箱也行
     },
@@ -413,3 +416,4 @@ if __name__ == '__main__':
 
     for p in processes:
         p.join()
+
